@@ -1,6 +1,6 @@
 pipeline{
     agent any
-    
+
     stages{
         stage("preparation"){
             steps{
@@ -19,7 +19,7 @@ pipeline{
         stage("deployment"){
             steps{
                 echo "========stage deployment ========"
-               withCredentials([usernamePassword(credentialsId: 'github', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+               withCredentials([usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     sh "echo $PASSWORD | docker login -u $USERNAME --password-stdin"
                     sh "docker push mar97/node_app:1.0" 
                 }
