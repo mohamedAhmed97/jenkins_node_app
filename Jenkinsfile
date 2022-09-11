@@ -12,7 +12,7 @@ pipeline{
          stage("building"){
             steps{
                 echo "========stage building ========"
-                sh "docker build -t mar97/node_app:1.0 ."
+                sh "docker build -t mar97/node_app:1.1 ."
             }
         }
 
@@ -21,7 +21,7 @@ pipeline{
                 echo "========stage deployment ========"
                withCredentials([usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     sh "echo $PASSWORD | docker login -u $USERNAME --password-stdin"
-                    sh "docker push mar97/node_app:1.0" 
+                    sh "docker push mar97/node_app:1.1" 
                 }
             }
         }
@@ -32,6 +32,7 @@ pipeline{
         }
         success{
             echo "========pipeline executed successfully ========"
+            slackSend(color:#0fff,message:"hi")
         }
         failure{
             echo "========pipeline execution failed========"
